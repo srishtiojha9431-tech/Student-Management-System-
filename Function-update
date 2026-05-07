@@ -1,0 +1,47 @@
+// Function to update student
+void updateStudent()
+{
+    int updateId;
+    bool found = false;
+
+    Student s;
+
+    cout << "\nEnter Student ID to Update : ";
+    cin >> updateId;
+
+    fstream file("students.dat", ios::binary | ios::in | ios::out);
+
+    while (file.read((char*)&s, sizeof(Student)))
+    {
+        if (s.id == updateId)
+        {
+            cout << "\nEnter New Name   : ";
+            cin.ignore();
+            cin.getline(s.name, 50);
+
+            cout << "Enter New Age    : ";
+            cin >> s.age;
+            cin.ignore();
+
+            cout << "Enter New Course : ";
+            cin.getline(s.course, 50);
+
+            // Move pointer back
+            file.seekp(file.tellg() - streampos(sizeof(Student)));
+
+            file.write((char*)&s, sizeof(Student));
+
+            cout << "\nStudent Record Updated Successfully!\n";
+
+            found = true;
+            break;
+        }
+    }
+
+    file.close();
+
+    if (!found)
+    {
+        cout << "\nStudent Record Not Found!\n";
+    }
+}
