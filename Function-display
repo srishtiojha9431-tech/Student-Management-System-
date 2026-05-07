@@ -1,0 +1,41 @@
+// Function to display students
+void displayStudents()
+{
+    Student s;
+
+    ifstream file("students.dat", ios::binary);
+
+    if (!file)
+    {
+        cout << "\nNo student records found!\n";
+        return;
+    }
+
+    cout << "\n========== STUDENT RECORDS ==========\n";
+
+    bool found = false;
+
+    while (file.read((char*)&s, sizeof(Student)))
+    {
+        // Skip invalid records
+        if (s.id <= 0)
+        {
+            continue;
+        }
+
+        cout << "\nStudent ID : " << s.id << endl;
+        cout << "Name       : " << s.name << endl;
+        cout << "Age        : " << s.age << endl;
+        cout << "Course     : " << s.course << endl;
+        cout << "--------------------------------------";
+
+        found = true;
+    }
+
+    if (!found)
+    {
+        cout << "\nNo valid records found!\n";
+    }
+
+    file.close();
+}
