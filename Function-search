@@ -1,0 +1,36 @@
+// Function to search student
+void searchStudent()
+{
+    int searchId;
+    bool found = false;
+
+    Student s;
+
+    cout << "\nEnter Student ID to Search : ";
+    cin >> searchId;
+
+    ifstream file("students.dat", ios::binary);
+
+    while (file.read((char*)&s, sizeof(Student)))
+    {
+        if (s.id == searchId)
+        {
+            cout << "\nStudent Found!\n";
+
+            cout << "Student ID : " << s.id << endl;
+            cout << "Name       : " << s.name << endl;
+            cout << "Age        : " << s.age << endl;
+            cout << "Course     : " << s.course << endl;
+
+            found = true;
+            break;
+        }
+    }
+
+    file.close();
+
+    if (!found)
+    {
+        cout << "\nStudent Record Not Found!\n";
+    }
+}
