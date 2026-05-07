@@ -1,0 +1,41 @@
+// Function to delete student
+void deleteStudent()
+{
+    int deleteId;
+    bool found = false;
+
+    Student s;
+
+    ifstream file("students.dat", ios::binary);
+    ofstream tempFile("temp.dat", ios::binary);
+
+    cout << "\nEnter Student ID to Delete : ";
+    cin >> deleteId;
+
+    while (file.read((char*)&s, sizeof(Student)))
+    {
+        if (s.id != deleteId)
+        {
+            tempFile.write((char*)&s, sizeof(Student));
+        }
+        else
+        {
+            found = true;
+        }
+    }
+
+    file.close();
+    tempFile.close();
+
+    remove("students.dat");
+    rename("temp.dat", "students.dat");
+
+    if (found)
+    {
+        cout << "\nStudent Record Deleted Successfully!\n";
+    }
+    else
+    {
+        cout << "\nStudent Record Not Found!\n";
+    }
+}
